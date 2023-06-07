@@ -5,8 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProyectoCoder</title>
+    <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
-    
+    <div class="formulario">
+        <h2>Formulario de Contacto</h2>
+        <form id="contacto" action="/submit" method="post">
+            <label for="nombre">Nombre:</label><br>
+            <input type="text" id="nombre" name="nombre" required><br>
+
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required><br>
+
+            <label for="numero">Número:</label><br>
+            <input type="text" id="numero" name="numero" required><br>
+
+            <label for="mensaje">Mensaje:</label><br>
+            <textarea id="mensaje" name="mensaje" required></textarea><br>
+
+            <input type="submit" value="Enviar">
+        </form>
+        <p id="status"></p>
+    </div>
+    <script src="./js/app.js"></script>
 </body>
 </html>
