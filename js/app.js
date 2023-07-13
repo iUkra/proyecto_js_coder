@@ -41,15 +41,9 @@ function limpiarCampos() {
     document.getElementById('mensaje').value = '';
 }
 
-// Objeto de ejemplo
-let usuario = {
-    nombre: '',
-    email: '',
-    numero: ''
-};
-
-// Array de objetos
-let usuarios = [];
+// Cargar usuarios del Storage si existen y mostrarlos en el DOM
+let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+mostrarUsuarios();
 
 // Método de búsqueda en el array
 function buscarUsuario(email) {
@@ -66,6 +60,18 @@ function buscarUsuario(email) {
 function filtrarUsuarios(nombre) {
     return usuarios.filter(function(usuario) {
         return usuario.nombre.toLowerCase().includes(nombre.toLowerCase());
+    });
+}
+
+// Mostrar usuarios en el DOM
+function mostrarUsuarios() {
+    let listaUsuarios = document.getElementById('lista-usuarios');
+    listaUsuarios.innerHTML = '';
+
+    usuarios.forEach(function(usuario) {
+        let itemUsuario = document.createElement('li');
+        itemUsuario.textContent = `Nombre: ${usuario.nombre}, Email: ${usuario.email}, Número: ${usuario.numero}`;
+        listaUsuarios.appendChild(itemUsuario);
     });
 }
 
@@ -95,6 +101,32 @@ document.getElementById('contacto').addEventListener('submit', function(event) {
 
     usuarios.push(nuevoUsuario);
 
+    // Guardar usuarios en el Storage
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+    // Mostrar usuarios en el DOM
+    mostrarUsuarios();
+
     // Limpiar campos
     limpiarCampos();
+});
+
+// Mostrar u ocultar lista de usuarios filtrados
+document.getElementById('filtro-nombre').addEventListener('input', function() {
+    let filtroNombre = this.value.trim();
+    let usuariosFiltrados = filtrarUsuarios(filtroNombre);
+    let listaFiltrada = document.getElementById('lista-filtrada');
+
+    if (filtroNombre !== '') {
+        listaFiltrada.innerHTML = '';
+        usuariosFiltrados.forEach(function(usuario) {
+            let itemUsuario = document.createElement('li');
+            itemUsuario.textContent = `Nombre: ${usuario.nombre}, Email: ${usuario.email}, Número: ${usuario.numero}`;
+            listaFiltrada.appendChild(itemUsuario);
+        });
+
+        listaFiltrada.style.display = 'block';
+    } else {
+        listaFiltrada.style.display = 'none';
+    }
 });
